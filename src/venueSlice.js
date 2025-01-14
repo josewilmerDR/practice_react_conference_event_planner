@@ -1,6 +1,12 @@
 // venueSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
+const quantityLimits = {
+  "Auditorium Hall (Capacity:200)": 3,
+  "Presentation Room (Capacity:50)": 4,
+  // Agrega más límites según sea necesario
+};
+
 export const venueSlice = createSlice({
   name: "venue",
   initialState: [
@@ -41,8 +47,10 @@ export const venueSlice = createSlice({
     incrementQuantity: (state, action) => {
       const { payload: index } = action;
       if (state[index]) {
-        if (state[index].name === " Auditorium Hall (Capacity:200)" && state[index].quantity >= 3) {
-          return;        }
+        const limit = quantityLimits[state[index].name];
+        if (limit && state[index].quantity >= limit) {
+          return;
+        }
         state[index].quantity++;
       }
     },
